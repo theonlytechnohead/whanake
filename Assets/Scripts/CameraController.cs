@@ -9,6 +9,8 @@ public class CameraController : MonoBehaviour
     private Camera cameraComponent;
 
     private float coast = 0;
+    private float prevMoved = 0;
+    private System.Collections.Generic.List<float> prevMoves = new System.Collections.Generic.List<float>();
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,26 @@ public class CameraController : MonoBehaviour
         float scroll = -Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0) coast = scroll / cameraComponent.orthographicSize * cameraComponent.aspect;
 
-        if (Input.GetButton("Fire1")) {
+        if (0 < Input.touchCount) {
+            Touch touch = Input.GetTouch(0);
+            float moved = touch.deltaPosition.y / Screen.height;
+            moved *= cameraComponent.orthographicSize * 2f;
+            pos.y -= moved;
+            if (touch.phase == TouchPhase.Moved) {
+                prevMoved = moved;
+                prevMoves.Add(moved);
+            }
+            if (touch.phase == TouchPhase.Ended) {
+                float average = 0;
+                int values = Mathf.Min(5, prevMoves.Count);
+                for (int i = prevMoves.Count - values; i < prevMoves.Count; i++) {
+                    average += prevMoves[i];
+                }
+                average /= values;
+                coast = average * 10f;
+                prevMoves.Clear();
+            }
+        } else if (Input.GetButton("Fire1")) {
             float speed = Input.GetAxis("Mouse Y") / cameraComponent.orthographicSize * cameraComponent.aspect;
             pos.y -= speed;
             coast = speed;
