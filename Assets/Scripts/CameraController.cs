@@ -21,6 +21,9 @@ public class CameraController : MonoBehaviour
     {
         Vector3 pos = transform.position;
 
+        float scroll = -Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0) coast = scroll / cameraComponent.orthographicSize * cameraComponent.aspect;
+
         if (Input.GetButton("Fire1")) {
             float speed = Input.GetAxis("Mouse Y") / cameraComponent.orthographicSize * cameraComponent.aspect;
             pos.y -= speed;
