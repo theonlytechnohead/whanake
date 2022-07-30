@@ -9,7 +9,8 @@ public class CameraController : MonoBehaviour {
 
     private float scrollwheel = 0;
     private float touchpad = 0;
-    private float coast = 0;
+    [HideInInspector]
+    public static float coast = 0;
     private System.Collections.Generic.List<float> prevMoves = new System.Collections.Generic.List<float>();
 
     void Start () {

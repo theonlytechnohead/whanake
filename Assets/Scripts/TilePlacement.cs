@@ -16,6 +16,9 @@ public class TilePlacement : MonoBehaviour {
 
     private int current = 0;
 
+    private double startClick;
+    private Vector3 startPosition;
+
     void Start () {
         tilemap = GetComponent<Tilemap>();
         tiles[0] = sheep;
@@ -32,10 +35,19 @@ public class TilePlacement : MonoBehaviour {
         mouse.z = 0f;
         Vector3Int cellPosition = tilemap.WorldToCell(mouse);
 
+        if (Input.GetButtonDown("Fire1")) {
+            startClick = Time.timeAsDouble;
+            startPosition = Input.mousePosition;
+        }
+
         if (Input.GetButtonUp("Fire1")) {
-            if (legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
-                tilemap.SetTile(cellPosition, tiles[current++]);
-                if (current == 6) current = 0;
+            if (Time.timeAsDouble - startClick < 0.1f || Vector3.Distance(Input.mousePosition, startPosition) < 5f) {
+                if (Mathf.Abs(CameraController.coast) < 0.01f) {
+                    if (legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
+                        tilemap.SetTile(cellPosition, tiles[current++]);
+                        if (current == 6) current = 0;
+                    }
+                }
             }
         }
     }
