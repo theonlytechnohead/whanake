@@ -1,8 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class CameraController : MonoBehaviour
-{
+public class CameraController : MonoBehaviour {
     public int maxY = 10;
     public int minY = 0;
 
@@ -13,18 +12,13 @@ public class CameraController : MonoBehaviour
     private float coast = 0;
     private System.Collections.Generic.List<float> prevMoves = new System.Collections.Generic.List<float>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start () {
         cameraComponent = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update () {
         Vector3 pos = transform.position;
 
-        //float scroll = -Input.GetAxis("Mouse ScrollWheel"); // deprecated
         if (scrollwheel != 0) coast = scrollwheel / cameraComponent.orthographicSize * cameraComponent.aspect;
         if (touchpad != 0) {
             pos.y -= touchpad / cameraComponent.orthographicSize * cameraComponent.aspect;
@@ -64,7 +58,7 @@ public class CameraController : MonoBehaviour
                 pos.y = Mathf.Lerp(pos.y, minY - (coast * 10f), 10f * 0.75f * Time.deltaTime);
             }
         }
-        
+
         transform.position = pos;
     }
 
