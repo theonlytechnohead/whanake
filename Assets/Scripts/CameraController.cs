@@ -28,20 +28,22 @@ public class CameraController : MonoBehaviour {
 
         if (0 < Input.touchCount) {
             Touch touch = Input.GetTouch(0);
-            float moved = touch.deltaPosition.y / Screen.height;
-            moved *= cameraComponent.orthographicSize * 2f;
-            pos.y -= moved;
-            if (touch.phase == TouchPhase.Moved) {
-                prevMoves.Add(moved);
+            if (touch.deltaPosition.y != float.NaN) {
+                float moved = touch.deltaPosition.y / Screen.height;
+                moved *= cameraComponent.orthographicSize * 2f;
+                pos.y -= moved;
+                if (touch.phase == TouchPhase.Moved) {
+                    prevMoves.Add(moved);
+                }
+                coast = 0;
             }
-            if (touch.phase == TouchPhase.Ended) {
+            if (touch.phase == TouchPhase.Ended && 5 < prevMoves.Count) {
                 float average = 0;
-                int values = Mathf.Min(5, prevMoves.Count);
-                for (int i = prevMoves.Count - values; i < prevMoves.Count; i++) {
+                for (int i = prevMoves.Count - 5; i < prevMoves.Count; i++) {
                     average += prevMoves[i];
                 }
-                average /= values;
-                coast = average * 10f;
+                average /= 5;
+                coast = average;
                 prevMoves.Clear();
             }
         } else if (Input.GetButton("Fire1")) {
