@@ -9397,6 +9397,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placement: {fileID: 11400000, guid: 64fe7e3fde663b84ab6fa9d5b95afe9e, type: 2}
+  sheep: {fileID: 11400000, guid: f5052aaf7c13afd4caeeb68b665b092d, type: 2}
+  wood: {fileID: 11400000, guid: 596515d666e84194d86bfd7525de29f4, type: 2}
+  bricks: {fileID: 11400000, guid: 0b0908f32dc7bc64baf5de223524f78a, type: 2}
+  stone: {fileID: 11400000, guid: b8c7e299c27fa514eac73eb27ec0be82, type: 2}
+  wheat: {fileID: 11400000, guid: 64fe7e3fde663b84ab6fa9d5b95afe9e, type: 2}
+  desert: {fileID: 11400000, guid: a19ac86916f24614e8641cf757119b8c, type: 2}
 --- !u!1 &876768631
 GameObject:
   m_ObjectHideFlags: 0
