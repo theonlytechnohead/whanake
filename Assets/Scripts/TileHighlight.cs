@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 public class TileHighlight : MonoBehaviour {
 
     private Tilemap tilemap;
-    public TileBase highlight;
+    public TileBase legalHighlight;
+    public TileBase illegalHighlight;
 
     private Vector3Int? previous;
 
@@ -19,7 +20,8 @@ public class TileHighlight : MonoBehaviour {
         mouse.z = 0f;
         Vector3Int cellPosition = tilemap.WorldToCell(mouse);
         if (cellPosition != previous) {
-            tilemap.SetTile(cellPosition, highlight);
+            if (TilePlacement.legalPlacement(cellPosition)) tilemap.SetTile(cellPosition, legalHighlight);
+            else tilemap.SetTile(cellPosition, illegalHighlight);
             if (previous.HasValue) tilemap.SetTile(previous.Value, null);
             previous = cellPosition;
         }

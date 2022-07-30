@@ -33,15 +33,20 @@ public class TilePlacement : MonoBehaviour {
         Vector3Int cellPosition = tilemap.WorldToCell(mouse);
 
         if (Input.GetButtonUp("Fire1")) {
-            int rightLimit = Mathf.Abs(cellPosition.y % 2) == 1 ? 8 : 9;
-            if (-9 < cellPosition.x && cellPosition.x < rightLimit) {
-                if (-6 < cellPosition.y && cellPosition.y < 16) {
-                    if (tilemap.GetTile(cellPosition) == null) {
-                        tilemap.SetTile(cellPosition, tiles[current++]);
-                        if (current == 6) current = 0;
-                    }
-                }
+            if (legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
+                tilemap.SetTile(cellPosition, tiles[current++]);
+                if (current == 6) current = 0;
             }
         }
+    }
+
+    public static bool legalPlacement (Vector3Int cell) {
+        int rightLimit = Mathf.Abs(cell.y % 2) == 1 ? 8 : 9;
+        if (-9 < cell.x && cell.x < rightLimit) {
+            if (-4 < cell.y && cell.y < 16) {
+                return true;
+            }
+        }
+        return false;
     }
 }
