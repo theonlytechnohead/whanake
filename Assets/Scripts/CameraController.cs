@@ -8,8 +8,9 @@ public class CameraController : MonoBehaviour
 
     private Camera cameraComponent;
 
+    private float scrollwheel = 0;
+    private float touchpad = 0;
     private float coast = 0;
-    private float prevMoved = 0;
     private System.Collections.Generic.List<float> prevMoves = new System.Collections.Generic.List<float>();
 
     // Start is called before the first frame update
@@ -23,8 +24,12 @@ public class CameraController : MonoBehaviour
     {
         Vector3 pos = transform.position;
 
-        float scroll = -Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0) coast = scroll / cameraComponent.orthographicSize * cameraComponent.aspect;
+        //float scroll = -Input.GetAxis("Mouse ScrollWheel"); // deprecated
+        if (scrollwheel != 0) coast = scrollwheel / cameraComponent.orthographicSize * cameraComponent.aspect;
+        if (touchpad != 0) {
+            pos.y -= touchpad / cameraComponent.orthographicSize * cameraComponent.aspect;
+            coast = 0;
+        }
 
         if (0 < Input.touchCount) {
             Touch touch = Input.GetTouch(0);
@@ -32,7 +37,6 @@ public class CameraController : MonoBehaviour
             moved *= cameraComponent.orthographicSize * 2f;
             pos.y -= moved;
             if (touch.phase == TouchPhase.Moved) {
-                prevMoved = moved;
                 prevMoves.Add(moved);
             }
             if (touch.phase == TouchPhase.Ended) {
@@ -62,5 +66,20 @@ public class CameraController : MonoBehaviour
         }
         
         transform.position = pos;
+    }
+
+    private void OnGUI () {
+        float delta = Event.current.delta.y;
+        if (delta != 0) {
+            if (delta == Mathf.Floor(delta)) {
+                scrollwheel = delta;
+            } else {
+                touchpad = delta;
+                touchpad = Mathf.Clamp(touchpad, -2f, 2f);
+            }
+        } else {
+            scrollwheel = 0;
+            touchpad = 0;
+        }
     }
 }
