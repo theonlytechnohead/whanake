@@ -18,7 +18,11 @@ public class TilePlacement : MonoBehaviour {
         Vector3Int cellPosition = tilemap.WorldToCell(mouse);
 
         if (Input.GetButtonUp("Fire1")) {
-            tilemap.SetTile(cellPosition, placement);
+            if (-9 < cellPosition.x && cellPosition.x < 9) {
+                if (-6 < cellPosition.y && cellPosition.y < 16) {
+                    tilemap.SetTile(cellPosition, placement);
+                }
+            }
         }
     }
 }
