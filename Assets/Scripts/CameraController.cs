@@ -21,11 +21,12 @@ public class CameraController : MonoBehaviour {
     }
     public static InputMethod lastInputMethod;
     public delegate void InputMethodChanged (InputMethod inputMethod);
-    public InputMethodChanged InputChanged;
+    public static InputMethodChanged InputChanged;
 
     void Start () {
         cameraComponent = GetComponent<Camera>();
         SetInputMethod(InputMethod.MOUSE);
+        InputChanged?.Invoke(InputMethod.MOUSE);
     }
 
     void Update () {
