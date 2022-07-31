@@ -72,11 +72,9 @@ public class CameraController : MonoBehaviour {
         if (delta != 0) {
             TileHighlight.OnlyHighlightWithTouch(false);
             if (delta == Mathf.Floor(delta)) {
-                scrollwheel = delta;
-                scrollwheel = Mathf.Clamp(scrollwheel, -2f, 2f);
+                scrollwheel = Mathf.Clamp(delta, -0.15f, 0.15f);
             } else {
-                touchpad = delta;
-                touchpad = Mathf.Clamp(touchpad, -2f, 2f);
+                touchpad = Mathf.Clamp(delta, -2f, 2f);
             }
         } else {
             scrollwheel = 0;
