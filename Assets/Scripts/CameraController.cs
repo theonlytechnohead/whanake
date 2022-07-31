@@ -13,8 +13,19 @@ public class CameraController : MonoBehaviour {
     public static float coast = 0;
     private System.Collections.Generic.List<float> prevMoves = new();
 
+    public enum InputMethod {
+        MOUSE,
+        SCROLLWHEEL,
+        TOUCHPAD,
+        TOUCH
+    }
+    public static InputMethod lastInputMethod;
+    public delegate void InputMethodChanged (InputMethod inputMethod);
+    public InputMethodChanged InputChanged;
+
     void Start () {
         cameraComponent = GetComponent<Camera>();
+        SetInputMethod(InputMethod.MOUSE);
     }
 
     void Update () {
@@ -27,7 +38,7 @@ public class CameraController : MonoBehaviour {
         }
 
         if (0 < Input.touchCount) {
-            TileHighlight.OnlyHighlightWithTouch(true);
+            SetInputMethod(InputMethod.TOUCH);
             Touch touch = Input.GetTouch(0);
             if (touch.deltaPosition.y != float.NaN) {
                 float moved = touch.deltaPosition.y / Screen.height;
@@ -45,15 +56,18 @@ public class CameraController : MonoBehaviour {
                 prevMoves.Clear();
             }
         } else if (Input.GetButton("Fire1")) {
-            TileHighlight.OnlyHighlightWithTouch(false);
+            SetInputMethod(InputMethod.MOUSE);
             float speed = Input.GetAxis("Mouse Y") / cameraComponent.orthographicSize * cameraComponent.aspect;
             pos.y -= speed;
             coast = speed;
         } else {
+            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) SetInputMethod(InputMethod.MOUSE);
             coast = Mathf.Clamp(Mathf.Lerp(coast, 0, 10f * 0.75f * Time.deltaTime), -0.1f, 0.1f);
+            if (lastInputMethod == InputMethod.TOUCHPAD) coast = 0f;
             pos.y -= coast;
-            if (maxY < pos.y) pos.y = Mathf.Lerp(pos.y, maxY + (coast * 10f), 10f * 0.75f * Time.deltaTime);
-            if (pos.y < minY) pos.y = Mathf.Lerp(pos.y, minY - (coast * 10f), 10f * 0.75f * Time.deltaTime);
+            float offset = coast * 10f;
+            if (maxY < pos.y) pos.y = Mathf.Lerp(pos.y, maxY + offset, 10f * 0.75f * Time.deltaTime);
+            if (pos.y < minY) pos.y = Mathf.Lerp(pos.y, minY - offset, 10f * 0.75f * Time.deltaTime);
         }
 
         transform.position = pos;
@@ -61,16 +75,31 @@ public class CameraController : MonoBehaviour {
 
     private void OnGUI () {
         float delta = Event.current.delta.y;
-        if (delta != 0) {
-            TileHighlight.OnlyHighlightWithTouch(false);
-            if (delta == Mathf.Floor(delta)) {
-                scrollwheel = Mathf.Clamp(delta, -0.15f, 0.15f);
-            } else {
-                touchpad = Mathf.Clamp(delta, -2f, 2f);
+        if (Event.current.type == EventType.ScrollWheel) {
+            if (delta != 0) {
+                if (delta == Mathf.Floor(delta)) {
+                    SetInputMethod(InputMethod.SCROLLWHEEL);
+                    scrollwheel = delta < 0 ? -0.25f : 0.25f;
+                } else {
+                    SetInputMethod(InputMethod.TOUCHPAD);
+                    Vector3 pos = transform.position;
+                    if ((minY <= pos.y && delta > 0) || (pos.y <= maxY && delta < 0)) touchpad = Mathf.Clamp(delta, -2f, 2f);
+                }
             }
         } else {
             scrollwheel = 0;
             touchpad = 0;
+        }
+    }
+
+    private void SetInputMethod (InputMethod method) {
+        if (method != lastInputMethod) {
+            InputChanged?.Invoke(method);
+            bool hide = method == InputMethod.TOUCH;
+            hide |= method == InputMethod.TOUCHPAD && lastInputMethod == InputMethod.TOUCH;
+            hide |= method == InputMethod.SCROLLWHEEL && lastInputMethod == InputMethod.TOUCH;
+            TileHighlight.OnlyHighlightWithTouch(hide);
+            lastInputMethod = method;
         }
     }
 }
