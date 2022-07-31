@@ -5,16 +5,20 @@ using UnityEngine.Tilemaps;
 public class TilePlacement : MonoBehaviour {
 
     private Tilemap tilemap;
-    public TileBase sheep;
-    public TileBase wood;
-    public TileBase bricks;
-    public TileBase stone;
-    public TileBase wheat;
-    public TileBase desert;
+    public Tile sheep;
+    public Tile wood;
+    public Tile bricks;
+    public Tile stone;
+    public Tile wheat;
+    public Tile desert;
 
-    private TileBase[] tiles = new TileBase[6];
+    [HideInInspector]
+    public static Tile[] tiles = new Tile[6];
 
-    private int current = 0;
+    [HideInInspector]
+    public static int current;
+    [HideInInspector]
+    public static int next;
 
     private double startClick;
     private Vector3 startPosition;
@@ -27,6 +31,8 @@ public class TilePlacement : MonoBehaviour {
         tiles[3] = stone;
         tiles[4] = wheat;
         tiles[5] = desert;
+        current = Mathf.FloorToInt(Random.Range(0, tiles.Length));
+        next = Mathf.FloorToInt(Random.Range(0, tiles.Length));
     }
 
     void Update () {
@@ -44,8 +50,9 @@ public class TilePlacement : MonoBehaviour {
             if (Time.timeAsDouble - startClick < 0.1f || Vector3.Distance(Input.mousePosition, startPosition) < 5f) {
                 if (Mathf.Abs(CameraController.coast) < 0.01f) {
                     if (legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
-                        tilemap.SetTile(cellPosition, tiles[current++]);
-                        if (current == 6) current = 0;
+                        tilemap.SetTile(cellPosition, tiles[current]);
+                        current = next;
+                        next = Mathf.FloorToInt(Random.Range(0, tiles.Length));
                     }
                 }
             }
