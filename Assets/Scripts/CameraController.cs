@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour {
         }
 
         if (0 < Input.touchCount) {
+            TileHighlight.OnlyHighlightWithTouch(true);
             Touch touch = Input.GetTouch(0);
             if (touch.deltaPosition.y != float.NaN) {
                 float moved = touch.deltaPosition.y / Screen.height;
@@ -47,6 +48,7 @@ public class CameraController : MonoBehaviour {
                 prevMoves.Clear();
             }
         } else if (Input.GetButton("Fire1")) {
+            TileHighlight.OnlyHighlightWithTouch(false);
             float speed = Input.GetAxis("Mouse Y") / cameraComponent.orthographicSize * cameraComponent.aspect;
             pos.y -= speed;
             coast = speed;
@@ -68,6 +70,7 @@ public class CameraController : MonoBehaviour {
     private void OnGUI () {
         float delta = Event.current.delta.y;
         if (delta != 0) {
+            TileHighlight.OnlyHighlightWithTouch(false);
             if (delta == Mathf.Floor(delta)) {
                 scrollwheel = delta;
                 scrollwheel = Mathf.Clamp(scrollwheel, -2f, 2f);
