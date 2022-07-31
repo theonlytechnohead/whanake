@@ -70,6 +70,7 @@ public class CameraController : MonoBehaviour {
         if (delta != 0) {
             if (delta == Mathf.Floor(delta)) {
                 scrollwheel = delta;
+                scrollwheel = Mathf.Clamp(scrollwheel, -2f, 2f);
             } else {
                 touchpad = delta;
                 touchpad = Mathf.Clamp(touchpad, -2f, 2f);
