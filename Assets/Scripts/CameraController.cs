@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
     private float touchpad = 0;
     [HideInInspector]
     public static float coast = 0;
-    private System.Collections.Generic.List<float> prevMoves = new System.Collections.Generic.List<float>();
+    private System.Collections.Generic.List<float> prevMoves = new();
 
     void Start () {
         cameraComponent = GetComponent<Camera>();
@@ -40,11 +40,8 @@ public class CameraController : MonoBehaviour {
             }
             if (touch.phase == TouchPhase.Ended && 5 < prevMoves.Count) {
                 float average = 0;
-                for (int i = prevMoves.Count - 5; i < prevMoves.Count; i++) {
-                    average += prevMoves[i];
-                }
-                average /= 5;
-                coast = average;
+                for (int i = prevMoves.Count - 5; i < prevMoves.Count; i++) average += prevMoves[i];
+                coast = average / 5f;
                 prevMoves.Clear();
             }
         } else if (Input.GetButton("Fire1")) {
@@ -53,15 +50,10 @@ public class CameraController : MonoBehaviour {
             pos.y -= speed;
             coast = speed;
         } else {
-            coast = Mathf.Lerp(coast, 0, 10f * 0.75f * Time.deltaTime);
-            coast = Mathf.Clamp(coast, -0.1f, 0.1f);
+            coast = Mathf.Clamp(Mathf.Lerp(coast, 0, 10f * 0.75f * Time.deltaTime), -0.1f, 0.1f);
             pos.y -= coast;
-            if (maxY < pos.y) {
-                pos.y = Mathf.Lerp(pos.y, maxY + (coast * 10f), 10f * 0.75f * Time.deltaTime);
-            }
-            if (pos.y < minY) {
-                pos.y = Mathf.Lerp(pos.y, minY - (coast * 10f), 10f * 0.75f * Time.deltaTime);
-            }
+            if (maxY < pos.y) pos.y = Mathf.Lerp(pos.y, maxY + (coast * 10f), 10f * 0.75f * Time.deltaTime);
+            if (pos.y < minY) pos.y = Mathf.Lerp(pos.y, minY - (coast * 10f), 10f * 0.75f * Time.deltaTime);
         }
 
         transform.position = pos;
