@@ -42,13 +42,16 @@ public class CameraController : MonoBehaviour {
             SetInputMethod(InputMethod.TOUCH);
             Touch touch = Input.GetTouch(0);
             if (touch.deltaPosition.y != float.NaN) {
-                float moved = touch.deltaPosition.y / Screen.height;
-                moved *= cameraComponent.orthographicSize * 2f;
-                pos.y -= moved;
                 if (touch.phase == TouchPhase.Moved) {
+                    float moved = touch.deltaPosition.y / Screen.height;
+                    moved *= cameraComponent.orthographicSize * 2f;
+                    if (0 < prevMoves.Count && 2f < Mathf.Abs(touch.deltaPosition.y)) {
+                        pos.y -= moved;
+                    }
                     prevMoves.Add(moved);
                 }
                 coast = 0;
+
             }
             if (touch.phase == TouchPhase.Ended && 5 < prevMoves.Count) {
                 float average = 0;

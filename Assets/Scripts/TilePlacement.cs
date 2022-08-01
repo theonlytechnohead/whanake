@@ -20,7 +20,7 @@ public class TilePlacement : MonoBehaviour {
     [HideInInspector]
     public static int? next;
 
-    private double startClick;
+    private double startTime;
     private Vector3 startPosition;
 
     void Start () {
@@ -42,12 +42,12 @@ public class TilePlacement : MonoBehaviour {
         Vector3Int cellPosition = tilemap.WorldToCell(mouse);
 
         if (Input.GetButtonDown("Fire1")) {
-            startClick = Time.timeAsDouble;
+            startTime = Time.timeAsDouble;
             startPosition = Input.mousePosition;
         }
 
         if (Input.GetButtonUp("Fire1")) {
-            if (Time.timeAsDouble - startClick < 0.1f || Vector3.Distance(Input.mousePosition, startPosition) < 5f) {
+            if (Time.timeAsDouble - startTime < 0.1f || Vector3.Distance(Input.mousePosition, startPosition) < 10f) {
                 if (Mathf.Abs(CameraController.coast) < 0.01f) {
                     if (StateManager.legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
                         if (0 < StateManager.tilesToPlace) {
