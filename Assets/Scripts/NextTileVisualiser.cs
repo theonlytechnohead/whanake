@@ -12,8 +12,12 @@ public class NextTileVisualiser : MonoBehaviour {
 
     void Update () {
         if (next != TilePlacement.next) {
-            next = TilePlacement.next;
-            spriteRenderer.sprite = TilePlacement.tiles[next].sprite;
+            if (TilePlacement.next.HasValue) {
+                next = TilePlacement.next.Value;
+                spriteRenderer.sprite = TilePlacement.tiles[next].sprite;
+            } else {
+                spriteRenderer.sprite = null;
+            }
         }
     }
 }

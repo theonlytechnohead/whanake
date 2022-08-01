@@ -16,9 +16,9 @@ public class TilePlacement : MonoBehaviour {
     public static Tile[] tiles = new Tile[6];
 
     [HideInInspector]
-    public static int current;
+    public static int? current;
     [HideInInspector]
-    public static int next;
+    public static int? next;
 
     private double startClick;
     private Vector3 startPosition;
@@ -49,23 +49,23 @@ public class TilePlacement : MonoBehaviour {
         if (Input.GetButtonUp("Fire1")) {
             if (Time.timeAsDouble - startClick < 0.1f || Vector3.Distance(Input.mousePosition, startPosition) < 5f) {
                 if (Mathf.Abs(CameraController.coast) < 0.01f) {
-                    if (legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
-                        tilemap.SetTile(cellPosition, tiles[current]);
-                        current = next;
-                        next = Mathf.FloorToInt(Random.Range(0, tiles.Length));
+                    if (StateManager.legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
+                        if (0 < StateManager.tilesToPlace) {
+                            StateManager.tilesToPlace--;
+                            if (current.HasValue) {
+                                tilemap.SetTile(cellPosition, tiles[current.Value]);
+                                if (next.HasValue) current = next;
+                                else current = null;
+                                if (1 < StateManager.tilesToPlace) {
+                                    next = Mathf.FloorToInt(Random.Range(0, tiles.Length));
+                                } else {
+                                    next = null;
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-
-    public static bool legalPlacement (Vector3Int cell) {
-        int rightLimit = Mathf.Abs(cell.y % 2) == 1 ? 8 : 9;
-        if (-9 < cell.x && cell.x < rightLimit) {
-            if (-4 < cell.y && cell.y < 16) {
-                return true;
-            }
-        }
-        return false;
     }
 }

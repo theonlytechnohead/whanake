@@ -38,7 +38,7 @@ public class TileHighlight : MonoBehaviour {
     void DoHighlight () {
         Vector3Int cellPosition = GetCellUnderMouse();
         if (cellPosition != previous) {
-            if (TilePlacement.legalPlacement(cellPosition)) tilemap.SetTile(cellPosition, legalHighlight);
+            if (StateManager.legalPlacement(cellPosition)) tilemap.SetTile(cellPosition, legalHighlight);
             else tilemap.SetTile(cellPosition, illegalHighlight);
             if (previous.HasValue) tilemap.SetTile(previous.Value, null);
             previous = cellPosition;
