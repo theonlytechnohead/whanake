@@ -66,12 +66,13 @@ public class CameraController : MonoBehaviour {
             coast = speed;
         } else {
             if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) SetInputMethod(InputMethod.MOUSE);
-            coast = Mathf.Clamp(Mathf.Lerp(coast, 0, 10f * 0.75f * Time.deltaTime), -0.1f, 0.1f);
+            float clampValue = lastInputMethod == InputMethod.SCROLLWHEEL ? 0.75f : 0.1f;
+            coast = Mathf.Clamp(Mathf.Lerp(coast, 0, 10f * 0.75f * Time.deltaTime), -clampValue, clampValue);
             if (lastInputMethod == InputMethod.TOUCHPAD) coast = 0f;
             pos.y -= coast;
             float offset = coast * 10f;
-            if (maxY < pos.y) pos.y = Mathf.Lerp(pos.y, maxY + offset, 10f * 0.75f * Time.deltaTime);
             if (pos.y < minY) pos.y = Mathf.Lerp(pos.y, minY - offset, 10f * 0.75f * Time.deltaTime);
+            if (maxY < pos.y) pos.y = Mathf.Lerp(pos.y, maxY - offset, 10f * 0.75f * Time.deltaTime);
         }
 
         transform.position = pos;
@@ -83,7 +84,7 @@ public class CameraController : MonoBehaviour {
             if (delta != 0) {
                 if (delta == Mathf.Floor(delta)) {
                     SetInputMethod(InputMethod.SCROLLWHEEL);
-                    scrollwheel = delta < 0 ? -0.25f : 0.25f;
+                    scrollwheel = delta < 0 ? -1.25f : 1.25f;
                 } else {
                     SetInputMethod(InputMethod.TOUCHPAD);
                     Vector3 pos = transform.position;
