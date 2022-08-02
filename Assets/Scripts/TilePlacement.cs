@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Tilemap))]
 public class TilePlacement : MonoBehaviour {
 
-    private Tilemap tilemap;
+    private static Tilemap tilemap;
     public Tile sheep;
     public Tile wood;
     public Tile bricks;
@@ -67,5 +67,13 @@ public class TilePlacement : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public static Vector3Int WorldToTile (Vector3 world) {
+        return tilemap.WorldToCell(world);
+    }
+
+    public static Vector3 TileToWorld (Vector3Int tile) {
+        return tilemap.CellToWorld(tile);
     }
 }

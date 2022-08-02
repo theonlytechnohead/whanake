@@ -40,16 +40,21 @@ public class CurrentTileVisualiser : MonoBehaviour {
     }
 
     void Update () {
-        if (followMouse) {
-            Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mouse.z = 0;
-            transform.parent = null;
-            transform.localScale = followScale;
-            transform.localPosition = mouse + followOffset;
-        } else {
-            transform.parent = parent;
-            transform.localScale = scale;
-            transform.localPosition = origin;
+        Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouse.z = 0;
+
+        Vector3Int tile = TilePlacement.WorldToTile(mouse);
+        Vector3 tilePosition = TilePlacement.TileToWorld(tile);
+        if (StateManager.legalPlacement(tile)) {
+            if (followMouse || 0 < Input.touchCount) {
+                transform.parent = null;
+                transform.localScale = followScale;
+                transform.localPosition = tilePosition + followOffset;
+            } else {
+                transform.parent = parent;
+                transform.localScale = scale;
+                transform.localPosition = origin;
+            }
         }
         UpdateHighlight();
     }
