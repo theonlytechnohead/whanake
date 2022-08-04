@@ -9884,7 +9884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheep: {fileID: 11400000, guid: f5052aaf7c13afd4caeeb68b665b092d, type: 2}
-  wood: {fileID: 11400000, guid: 596515d666e84194d86bfd7525de29f4, type: 2}
+  wood: {fileID: 0}
   bricks: {fileID: 11400000, guid: 0b0908f32dc7bc64baf5de223524f78a, type: 2}
   stone: {fileID: 11400000, guid: b8c7e299c27fa514eac73eb27ec0be82, type: 2}
   wheat: {fileID: 11400000, guid: 64fe7e3fde663b84ab6fa9d5b95afe9e, type: 2}
@@ -10762,6 +10762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e614c27e68300aa4188c23148531b70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vertical: {fileID: 11400000, guid: 3489b67b64d6f9c4cbc308b086d04ca7, type: 2}
+  slopeUp: {fileID: 11400000, guid: c780dcd134efc0c47945f59fed8fc658, type: 2}
+  slopeDown: {fileID: 11400000, guid: 0d6f86e696a35724a9e1f217e3e7eaee, type: 2}
 --- !u!1 &2037702913
 GameObject:
   m_ObjectHideFlags: 0
