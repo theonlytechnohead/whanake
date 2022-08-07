@@ -38,15 +38,15 @@ public class RoadPlacement : MonoBehaviour {
                 // slope
                 if (Mathf.Abs(cell.y) % 4 == 3) {
                     if (Mathf.Abs(cell.x) % 2 == 0) {
-                        road = slopeUp;
+                        road = cell.y < 0 ? slopeDown : slopeUp;
                     } else {
-                        road = slopeDown;
+                        road = cell.y < 0 ? slopeUp : slopeDown;
                     }
                 } else if (Mathf.Abs(cell.y) % 4 == 1) {
                     if (Mathf.Abs(cell.x) % 2 == 0) {
-                        road = slopeDown;
+                        road = cell.y < 0 ? slopeUp : slopeDown;
                     } else {
-                        road = slopeUp;
+                        road = cell.y < 0 ? slopeDown : slopeUp;
                     }
                 }
             }
