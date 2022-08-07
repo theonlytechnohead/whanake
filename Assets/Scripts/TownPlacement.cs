@@ -6,9 +6,11 @@ public class TownPlacement : MonoBehaviour {
 
     public int grid;
 
-    private static Tilemap tilemap;
+    private Tilemap tilemap;
 
     private Vector3Int current;
+
+    public Tile town;
 
     void Start () {
         tilemap = GetComponent<Tilemap>();
@@ -19,13 +21,22 @@ public class TownPlacement : MonoBehaviour {
         Vector3 world = Camera.main.ScreenToWorldPoint(mouse);
         Vector3Int cell = tilemap.WorldToCell(world);
         cell.z = 0;
+        Tile tile = null;
         if (cell != current) {
-            current = cell;
-            bool valid = false;
-            if (Mathf.Abs(cell.y) % 2 == grid) {
-                valid = true;
-                print($"{grid} {cell}: {valid}");
+            if (Mathf.Abs(cell.y) % 2 == 0) {
+                if (Mathf.Abs(cell.y) % 4 == 2) {
+                    if (Mathf.Abs(cell.x) % 2 == 1) {
+                        tile = town;
+                    }
+                } else if (Mathf.Abs(cell.y) % 4 == 0) {
+                    if (Mathf.Abs(cell.x) % 2 == 0) {
+                        tile = town;
+                    }
+                }
             }
+            tilemap.SetTile(current, null);
+            tilemap.SetTile(cell, tile);
+            current = cell;
         }
     }
 }

@@ -10426,6 +10426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: 1
+  town: {fileID: 11400000, guid: a7d3966d5c9ec684aa9846fb2641f202, type: 2}
 --- !u!1 &1407712664
 GameObject:
   m_ObjectHideFlags: 0
@@ -10439,7 +10440,7 @@ GameObject:
   - component: {fileID: 1407712666}
   - component: {fileID: 1407712668}
   m_Layer: 0
-  m_Name: Towns
+  m_Name: Towns (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10560,6 +10561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: 0
+  town: {fileID: 11400000, guid: a7d3966d5c9ec684aa9846fb2641f202, type: 2}
 --- !u!1 &1428549713
 GameObject:
   m_ObjectHideFlags: 0
