@@ -10303,6 +10303,7 @@ GameObject:
   - component: {fileID: 1199505867}
   - component: {fileID: 1199505869}
   - component: {fileID: 1199505868}
+  - component: {fileID: 1199505870}
   m_Layer: 0
   m_Name: Towns (1)
   m_TagString: Untagged
@@ -10412,6 +10413,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1199505870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199505866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4b950bd8502ec459ff8610c92dc229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: 1
 --- !u!1 &1407712664
 GameObject:
   m_ObjectHideFlags: 0
@@ -10423,6 +10437,7 @@ GameObject:
   - component: {fileID: 1407712665}
   - component: {fileID: 1407712667}
   - component: {fileID: 1407712666}
+  - component: {fileID: 1407712668}
   m_Layer: 0
   m_Name: Towns
   m_TagString: Untagged
@@ -10532,6 +10547,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1407712668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407712664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4b950bd8502ec459ff8610c92dc229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: 0
 --- !u!1 &1428549713
 GameObject:
   m_ObjectHideFlags: 0
