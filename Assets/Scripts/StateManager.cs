@@ -16,10 +16,10 @@ public class StateManager : MonoBehaviour {
     }
 
     public enum State {
-        INITIAL_WORLD,
-        INITIAL_BUILD,
-        WORLD,
-        BUILD
+        NONE,
+        TILE,
+        ROAD,
+        TOWN
     }
 
     public static State state;
@@ -27,32 +27,39 @@ public class StateManager : MonoBehaviour {
     public static StateDelegate StateChanged;
 
     public static int tilesToPlace = 0;
+    public static int roadsToPlace = 0;
+    public static int townsToPlace = 0;
 
     void Start () {
-        state = State.INITIAL_WORLD;
+        state = State.TILE;
 
         StateChanged += delegate (State s) {
             print(s);
         };
 
         StateChanged?.Invoke(state);
-        //tilesToPlace = 49;
         tilesToPlace = 9;
+        roadsToPlace = 5;
+        townsToPlace = 2;
     }
 
     void Update () {
         if (0 < tilesToPlace) {
-            if (state != State.INITIAL_WORLD && state != State.WORLD) {
-                StateChanged?.Invoke(State.WORLD);
-                state = State.WORLD;
+            if (state != State.TILE) {
+                StateChanged?.Invoke(State.TILE);
+                state = State.TILE;
             }
         } else {
-            if (state == State.INITIAL_WORLD) {
-                StateChanged?.Invoke(State.INITIAL_BUILD);
-                state = State.INITIAL_BUILD;
-            } else if (state == State.WORLD) {
-                StateChanged?.Invoke(State.BUILD);
-                state = State.BUILD;
+            if (0 < roadsToPlace) {
+                if (state != State.ROAD) {
+                    StateChanged?.Invoke(State.ROAD);
+                    state = State.ROAD;
+                }
+            } else if (0 < townsToPlace) {
+                if (state != State.TOWN) {
+                    StateChanged?.Invoke(State.TOWN);
+                    state = State.TOWN;
+                }
             }
         }
     }

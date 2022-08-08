@@ -17,7 +17,7 @@ public class TileHighlight : MonoBehaviour {
     }
 
     void Update () {
-        if (StateManager.state == StateManager.State.INITIAL_WORLD || StateManager.state == StateManager.State.WORLD) {
+        if (StateManager.state == StateManager.State.TILE) {
             if (requireTouch) {
                 if (0 < Input.touchCount) {
                     DoHighlight();

@@ -16,7 +16,7 @@ public class RoadPlacement : MonoBehaviour {
     }
 
     void Update () {
-        if (StateManager.state == StateManager.State.INITIAL_BUILD || StateManager.state == StateManager.State.BUILD) {
+        if (StateManager.state == StateManager.State.ROAD) {
             Vector3 mouse = Input.mousePosition;
             Vector3Int cell = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(mouse));
             cell.z = 0;

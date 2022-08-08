@@ -17,7 +17,7 @@ public class TownPlacement : MonoBehaviour {
     }
 
     void Update () {
-        if (StateManager.state == StateManager.State.INITIAL_BUILD || StateManager.state == StateManager.State.BUILD) {
+        if (StateManager.state == StateManager.State.TOWN) {
             Vector3 mouse = Input.mousePosition;
             Vector3 world = Camera.main.ScreenToWorldPoint(mouse);
             Vector3Int cell = tilemap.WorldToCell(world);
