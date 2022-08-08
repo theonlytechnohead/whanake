@@ -36,7 +36,8 @@ public class StateManager : MonoBehaviour {
         };
 
         StateChanged?.Invoke(state);
-        tilesToPlace = 49;
+        //tilesToPlace = 49;
+        tilesToPlace = 9;
     }
 
     void Update () {

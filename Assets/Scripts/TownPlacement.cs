@@ -17,26 +17,28 @@ public class TownPlacement : MonoBehaviour {
     }
 
     void Update () {
-        Vector3 mouse = Input.mousePosition;
-        Vector3 world = Camera.main.ScreenToWorldPoint(mouse);
-        Vector3Int cell = tilemap.WorldToCell(world);
-        cell.z = 0;
-        Tile tile = null;
-        if (cell != current) {
-            if (Mathf.Abs(cell.y) % 2 == 0) {
-                if (Mathf.Abs(cell.y) % 4 == 2) {
-                    if (Mathf.Abs(cell.x) % 2 == 1) {
-                        tile = town;
-                    }
-                } else if (Mathf.Abs(cell.y) % 4 == 0) {
-                    if (Mathf.Abs(cell.x) % 2 == 0) {
-                        tile = town;
+        if (StateManager.state == StateManager.State.INITIAL_BUILD || StateManager.state == StateManager.State.BUILD) {
+            Vector3 mouse = Input.mousePosition;
+            Vector3 world = Camera.main.ScreenToWorldPoint(mouse);
+            Vector3Int cell = tilemap.WorldToCell(world);
+            cell.z = 0;
+            Tile tile = null;
+            if (cell != current) {
+                if (Mathf.Abs(cell.y) % 2 == 0) {
+                    if (Mathf.Abs(cell.y) % 4 == 2) {
+                        if (Mathf.Abs(cell.x) % 2 == 1) {
+                            tile = town;
+                        }
+                    } else if (Mathf.Abs(cell.y) % 4 == 0) {
+                        if (Mathf.Abs(cell.x) % 2 == 0) {
+                            tile = town;
+                        }
                     }
                 }
+                tilemap.SetTile(current, null);
+                tilemap.SetTile(cell, tile);
+                current = cell;
             }
-            tilemap.SetTile(current, null);
-            tilemap.SetTile(cell, tile);
-            current = cell;
         }
     }
 }

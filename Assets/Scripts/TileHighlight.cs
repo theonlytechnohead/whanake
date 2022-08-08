@@ -17,14 +17,18 @@ public class TileHighlight : MonoBehaviour {
     }
 
     void Update () {
-        if (requireTouch) {
-            if (0 < Input.touchCount) {
-                DoHighlight();
+        if (StateManager.state == StateManager.State.INITIAL_WORLD || StateManager.state == StateManager.State.WORLD) {
+            if (requireTouch) {
+                if (0 < Input.touchCount) {
+                    DoHighlight();
+                } else {
+                    ClearHighlight();
+                }
             } else {
-                ClearHighlight();
+                DoHighlight();
             }
         } else {
-            DoHighlight();
+            ClearHighlight();
         }
     }
 

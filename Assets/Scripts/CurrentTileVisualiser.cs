@@ -63,7 +63,7 @@ public class CurrentTileVisualiser : MonoBehaviour {
         if (current != TilePlacement.current) {
             if (TilePlacement.current.HasValue) {
                 current = TilePlacement.current.Value;
-                spriteRenderer.sprite = TilePlacement.tiles[current].sprite;
+                if (TilePlacement.tiles[current] != null) spriteRenderer.sprite = TilePlacement.tiles[current].sprite;
             } else {
                 spriteRenderer.sprite = null;
             }

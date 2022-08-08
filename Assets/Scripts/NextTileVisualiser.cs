@@ -14,7 +14,7 @@ public class NextTileVisualiser : MonoBehaviour {
         if (next != TilePlacement.next) {
             if (TilePlacement.next.HasValue) {
                 next = TilePlacement.next.Value;
-                spriteRenderer.sprite = TilePlacement.tiles[next].sprite;
+                if (TilePlacement.tiles[next] != null) spriteRenderer.sprite = TilePlacement.tiles[next].sprite;
             } else {
                 spriteRenderer.sprite = null;
             }
