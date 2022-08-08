@@ -51,9 +51,10 @@ public class TilePlacement : MonoBehaviour {
                 if (Mathf.Abs(CameraController.coast) < 0.01f) {
                     if (StateManager.legalPlacement(cellPosition) && tilemap.GetTile(cellPosition) == null) {
                         if (0 < StateManager.tilesToPlace) {
-                            StateManager.tilesToPlace--;
                             if (current.HasValue) {
-                                tilemap.SetTile(cellPosition, tiles[current.Value]);
+                                StateManager.tilesToPlace--;
+                                Tile tile = tiles[current.Value];
+                                tilemap.SetTile(cellPosition, tile);
                                 if (next.HasValue) current = next;
                                 else current = null;
                                 if (1 < StateManager.tilesToPlace) {

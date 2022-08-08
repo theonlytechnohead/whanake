@@ -62,9 +62,12 @@ public class CurrentTileVisualiser : MonoBehaviour {
     void UpdateHighlight () {
         if (current != TilePlacement.current) {
             if (TilePlacement.current.HasValue) {
-                current = TilePlacement.current.Value;
-                if (TilePlacement.tiles[current] != null) spriteRenderer.sprite = TilePlacement.tiles[current].sprite;
+                if (TilePlacement.tiles[TilePlacement.current.Value] != null) {
+                    current = TilePlacement.current.Value;
+                    spriteRenderer.sprite = TilePlacement.tiles[current].sprite;
+                }
             } else {
+                current = -1;
                 spriteRenderer.sprite = null;
             }
         }
