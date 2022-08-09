@@ -53,6 +53,9 @@ public class RoadPlacement : MonoBehaviour {
                 }
                 tilemap.SetTile(cell, road);
             }
+            if (Input.GetButtonDown("Fire1")) {
+                StateManager.roadsToPlace--;
+            }
         }
     }
 }

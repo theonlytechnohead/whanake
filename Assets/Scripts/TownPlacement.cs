@@ -39,6 +39,9 @@ public class TownPlacement : MonoBehaviour {
                 tilemap.SetTile(cell, tile);
                 current = cell;
             }
+            if (Input.GetButtonDown("Fire1")) {
+                StateManager.townsToPlace--;
+            }
         }
     }
 }
